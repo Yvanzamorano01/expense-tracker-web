@@ -1,0 +1,109 @@
+appId: com.expensetracker.pro
+productName: ExpenseTracker Pro
+copyright: Copyright 2024
+
+# Build directories
+directories:
+  output: dist-electron
+  buildResources: electron/resources
+
+# Files to include in the build
+files:
+  - build/**/*
+  - electron/**/*
+  - package.json
+  - "!node_modules"
+  - "!src"
+  - "!backend/src"
+  - "!**/*.map"
+  - "!**/*.md"
+  - "!.git"
+  - "!.env"
+
+# Extra resources (backend files)
+extraResources:
+  # Backend compiled files
+  - from: backend/dist
+    to: backend/dist
+    filter:
+      - "**/*"
+      - "!**/*.map"
+
+  # Backend node_modules
+  - from: backend/node_modules
+    to: backend/node_modules
+    filter:
+      - "**/*"
+      - "!**/*.md"
+      - "!**/*.map"
+      - "!**/test/**"
+      - "!**/tests/**"
+      - "!**/*.ts"
+
+  # Backend database directory (empty, will be created)
+  - from: backend/database
+    to: backend/database
+    filter:
+      - "**/*"
+
+# ASAR archive - disabled to allow backend spawning
+asar: false
+
+# Windows configuration
+win:
+  target:
+    - target: nsis
+      arch:
+        - x64
+  # icon: electron/resources/icon.ico  # Uncomment when you have a 256x256 icon
+  artifactName: ${productName}-Setup-${version}.${ext}
+  signAndEditExecutable: false  # Disable code signing to avoid permission issues
+
+# NSIS installer configuration
+nsis:
+  oneClick: false
+  allowToChangeInstallationDirectory: true
+  # installerIcon: electron/resources/icon.ico  # Uncomment when you have a 256x256 icon
+  # uninstallerIcon: electron/resources/icon.ico
+  # installerHeaderIcon: electron/resources/icon.ico
+  createDesktopShortcut: true
+  createStartMenuShortcut: true
+  shortcutName: ExpenseTracker Pro
+  perMachine: false
+
+# macOS configuration
+mac:
+  target:
+    - target: dmg
+      arch:
+        - x64
+        - arm64
+  icon: electron/resources/icon.icns
+  category: public.app-category.finance
+  artifactName: ${productName}-${version}-${arch}.${ext}
+
+# DMG configuration
+dmg:
+  contents:
+    - x: 130
+      y: 220
+    - x: 410
+      y: 220
+      type: link
+      path: /Applications
+
+# Linux configuration
+linux:
+  target:
+    - target: AppImage
+      arch:
+        - x64
+  icon: electron/resources/icons
+  category: Office
+  artifactName: ${productName}-${version}.${ext}
+
+# Publish configuration (optional - for auto-update)
+# publish:
+#   provider: github
+#   owner: your-username
+#   repo: expensetracker-pro
