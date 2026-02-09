@@ -1,5 +1,6 @@
 # Render Infrastructure as Code (Blueprint)
-# This file deploys the full Expense Tracker Pro app on Render
+# This file deploys the Backend + Database
+# Frontend should be deployed manually as a Static Site
 
 databases:
   - name: expensetracker-db
@@ -27,21 +28,3 @@ services:
         generateValue: true
       - key: PORT
         value: 5000
-
-  # Frontend (Static Site)
-  - type: static
-    name: expensetracker-pro
-    rootDir: ./
-    buildCommand: npm install && npm run build
-    staticPublishPath: build
-    headers:
-      - path: /*
-        name: Cache-Control
-        value: public, max-age=0, must-revalidate
-    routes:
-      - type: rewrite
-        source: /*
-        destination: /index.html
-    envVars:
-      - key: VITE_API_URL
-        value: https://expensetracker-pro-api.onrender.com/api
