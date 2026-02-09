@@ -46,6 +46,10 @@ app.use(cors({
     if (origin.includes('localhost') || origin.includes('127.0.0.1')) {
       return callback(null, true);
     }
+    // Allow Render domains (production)
+    if (origin.includes('.onrender.com')) {
+      return callback(null, true);
+    }
     // Allow file:// protocol (Electron production)
     if (origin.startsWith('file://')) {
       return callback(null, true);
