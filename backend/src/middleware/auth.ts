@@ -18,10 +18,10 @@ export interface JWTPayload {
 /**
  * Extended Request Interface with user
  */
-export interface AuthRequest extends Request {
+export type AuthRequest = Request & {
   user?: User;
   userId?: number;
-}
+};
 
 /**
  * Generate JWT Token
