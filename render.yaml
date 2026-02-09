@@ -28,9 +28,9 @@ services:
       - key: PORT
         value: 5000
 
+staticSites:
   # Frontend (Static Site)
-  - type: static
-    name: expensetracker-pro
+  - name: expensetracker-pro
     rootDir: ./
     buildCommand: npm install && npm run build
     staticPublishPath: build
