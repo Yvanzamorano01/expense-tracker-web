@@ -29,10 +29,9 @@ services:
         value: 5000
 
   # Frontend (Static Site)
-  - type: web
+  - type: static
     name: expensetracker-pro
-    runtime: static
-    plan: free
+    rootDir: ./
     buildCommand: npm install && npm run build
     staticPublishPath: build
     headers:
